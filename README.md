@@ -1365,3 +1365,72 @@ wordpress-alb-400820561.us-east-1.elb.amazonaws.com
 ```
 
 ![Wpimage](./image/wpimage.PNG)
+
+
+## ERRORS AND FIXES
+
+**EFS Utils Build Failure**
+Error:
+
+dpkg: command not found
+
+Occurred while building: amazon-efs-utils
+
+**Cause**
+Ubuntu commands were use for Amazon linux
+
+**Fix**
+Installation Command was switched to:  
+ sudo yum install -y amazon-efs-utils
+
+ ### WordPress Not Downloaded
+
+ **Checking:**
+
+ ls -la /var/www/html
+
+ **Output**
+ 
+ empty directory
+
+ **Cause**
+ 
+ Use data crashed before installation
+
+ **Fix**
+
+ Corrected script redeployed
+
+
+ ### EFS Permission Problems
+ **Error**:
+  
+  Permisssion not permitted on :
+  
+  chown -R apache:apache /var/www/html
+
+**Cause**
+
+Files were on Efs
+
+Efs access point already control ownership
+Linux could not change ownership
+
+
+**Fix**
+
+Removed ownership modification.Allow Efs access point permissions to control ownership 
+
+  ### PHP Parse Errors
+
+  **Apache logs**
+
+  PHP Parse error:
+unexpected '?'
+compat-utf8.php line 47
+
+**Cause**
+
+Amazon Linux 2 default PHP version: php 5.4
+
+Wordpresss latest version require php 7.4+
